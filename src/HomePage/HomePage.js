@@ -6,6 +6,7 @@ class HomePage extends Component {
     render() {
         return (
             <div className="home_page">
+
                 <NoteList notes={this.props.notes} />
                 <button>Add Note</button>
             </div>
@@ -14,7 +15,7 @@ class HomePage extends Component {
 }
 
 HomePage.defaultProps = {
-    notes: []
+    notes: null
 };
 
 export default HomePage;
