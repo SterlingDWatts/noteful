@@ -1,0 +1,15 @@
+.note_box {
+    margin: 0 0 1em;
+    padding: 1em;
+    border: 1px solid black;
+}
+
+.note_name {
+    margin: 16px 0;
+    line-height: 1;
+}
+
+.note_box div {
+    display: flex;
+    justify-content: space-between;
+}
