@@ -1,0 +1,10 @@
+.folder_nav {
+    width: 25%;
+    border-right: 1px solid black;
+}
+
+.folder_nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}

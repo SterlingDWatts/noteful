@@ -17,11 +17,13 @@ class App extends Component {
     render() {
         return (
             <main>
-                <header>
+                <div className="noteful_header">
                     <h1>Noteful</h1>
-                </header>
+                </div>
                 <section className="noteful_app">
-                    <HomePage notes={this.state.store.notes} />
+                    <HomePage 
+                        notes={this.state.store.notes} 
+                        folders={this.state.store.folders}/>
                 </section>
             </main>
         );
