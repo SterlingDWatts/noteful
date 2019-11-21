@@ -1,0 +1,15 @@
+.folder_list_item {
+    text-align: center;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    border: 1px solid black;
+}
+
+a {
+    color: black;
+    text-decoration: none;
+}
+
+.selected {
+    background-color: #88D9FD;
+}

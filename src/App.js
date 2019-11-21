@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import { Route, Link } from 'react-router-dom';
 import STORE from './dummy-store';
 import HomePage from './HomePage/HomePage';
+import FolderPage from './FolderPage/FolderPage';
+import NotePage from './NotePage/NotePage';
 import './App.css';
 
 class App extends Component {
@@ -17,11 +20,30 @@ class App extends Component {
     render() {
         return (
             <main>
-                <header>
-                    <h1>Noteful</h1>
-                </header>
+                <div className="noteful_header">
+                    <h1>
+                        <Link to="/">Noteful</Link>
+                    </h1>
+                </div>
                 <section className="noteful_app">
-                    <HomePage notes={this.state.store.notes} />
+                    <Route 
+                        exact
+                        path="/"
+                        render={() =>
+                            <HomePage 
+                                notes={this.state.store.notes} 
+                                folders={this.state.store.folders}
+                            />
+                        }
+                    />
+                    <Route
+                        path="/folder/:folderId"
+                        component={FolderPage}
+                    />
+                    <Route
+                        path="/note/:noteId"
+                        component={NotePage}
+                    />
                 </section>
             </main>
         );

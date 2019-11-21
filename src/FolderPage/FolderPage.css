@@ -1,8 +1,8 @@
-.home_page {
+.folder_page {
     display: flex;
 }
 
-.home_page__notes {
+.folder_page__notes {
     margin: 0;
     padding: 1em;
     width: 75%;
