@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import './NoteBox.css';
 
 class NoteBox extends Component {
@@ -9,11 +10,13 @@ class NoteBox extends Component {
         const modifiedOn = 'Date modified on ' + dateString;
         return (
             <li className="note_box">
-                <h2 className="note_name">{this.props.note.name}</h2>
+                <Link to={`/note/${this.props.note.id}`}>
+                    <h2 className="note_name">{this.props.note.name}</h2>
+                </Link>
                 <div>
                     <span>{ modifiedOn }</span>
-                    <button>Delete Note</button>
-                </div>
+                    <button className="delete_note__button">Delete Note</button>
+                </div>                
             </li>
         );
     }

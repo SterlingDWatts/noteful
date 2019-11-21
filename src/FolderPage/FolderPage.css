@@ -1,0 +1,9 @@
+.folder_page {
+    display: flex;
+}
+
+.folder_page__notes {
+    margin: 0;
+    padding: 1em;
+    width: 75%;
+}

@@ -1,17 +1,20 @@
 import React, { Component } from 'react';
+import Folder from '../Folder/Folder';
 import './FolderNav.css';
 
 class FolderNav extends Component {
     render() {
         const folders = this.props.folders
-            ? this.props.folders.map(folder => <li>{folder.name}</li>)
+            ? this.props.folders.map(folder => <Folder folder={folder} key={folder.id} selectedFolder={this.props.selectedFolder}/>)
             : '';
         return (
             <div className="folder_nav">
                 <ul>
                     { folders }
                 </ul>
-                <button>Add Folder</button>
+                <div className="add_folder__box">
+                    <button className="add_folder__button">Add Folder</button>
+                </div>
             </div>
         );
     }

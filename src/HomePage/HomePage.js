@@ -7,7 +7,7 @@ class HomePage extends Component {
     render() {
         return (
             <div className="home_page">
-                <FolderNav folders={this.props.folders}/>
+                <FolderNav folders={this.props.folders} selectedFolder={null}/>
                 <div className="home_page__notes">
                     <NoteList notes={this.props.notes} />
                     <button>Add Note</button>
