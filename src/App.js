@@ -42,7 +42,9 @@ class App extends Component {
                     />
                     <Route
                         path="/note/:noteId"
-                        component={NotePage}
+                        render={({ history }) => {
+                            return <NotePage onClickBack={() => history.goBack()} />
+                        }}
                     />
                 </section>
             </main>

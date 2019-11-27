@@ -1,0 +1,34 @@
+.note_page {
+    display: flex;
+}
+
+.back_to_folders_nav {
+    width: 25%;
+    text-align: center;
+}
+
+.note_box__box {
+    width: 75%;
+}
+
+.go_back__box {
+    padding: 16px;
+}
+
+.go_back {
+    width: 100%;
+    margin: 0;
+    padding: 8px;
+    border: 1px solid black;
+    background-color: white;
+}
+
+.note_box__box {
+    padding: 16px;
+}
+
+.note_box__box ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
