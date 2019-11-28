@@ -4,7 +4,7 @@ import './Folder.css';
 
 class Folder extends Component {
     render() {
-        const listItem = (this.props.selectedFolder ===this.props.folder.id)
+        const listItem = (this.props.selectedFolder === this.props.folder.id)
         ? (<li className="folder_list_item selected">
                 <Link to={`/folder/${this.props.folder.id}`}>{this.props.folder.name}</Link>
             </li>)

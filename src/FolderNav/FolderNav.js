@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 import Folder from '../Folder/Folder';
+import AppContext from '../AppContext';
 import './FolderNav.css';
 
 class FolderNav extends Component {
+
+    static contextType = AppContext;
+
     render() {
-        const folders = this.props.folders
-            ? this.props.folders.map(folder => <Folder folder={folder} key={folder.id} selectedFolder={this.props.selectedFolder}/>)
+        const folders = this.context.folders
+            ? this.context.folders.map(folder => <Folder folder={folder} key={folder.id} selectedFolder={this.props.selectedFolder}/>)
             : '';
         return (
             <div className="folder_nav">
@@ -18,6 +22,7 @@ class FolderNav extends Component {
             </div>
         );
     }
+
 }
 
 FolderNav.defaultProps = {

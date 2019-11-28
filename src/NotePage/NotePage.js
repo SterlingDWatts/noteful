@@ -1,14 +1,19 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
 import NoteBox from '../NoteBox/NoteBox';
+import AppContext from '../AppContext';
 import STORE from '../dummy-store';
 import './NotePage.css';
 
 class NotePage extends Component {
+
+    static contextType = AppContext;
+
+    handleGoBack = () => {
+        this.props.history.goBack()
+    }
+
     render() {
-        const note = STORE.notes.find(note =>
-            note.id === this.props.match.params.noteId
-        );
+        const note = STORE.notes.find(note => note.id === this.props.match.params.noteId);
         const folder = STORE.folders.find(folder => folder.id === note.folderId);
         return (
             <div className="note_page">
@@ -16,7 +21,7 @@ class NotePage extends Component {
                     <div className="go_back__box">
                         <button 
                             className="go_back"
-                            onClick={this.props.onClickBack}
+                            onClick={this.handleGoBack}
                         >
                             Go Back
                         </button>
@@ -30,6 +35,7 @@ class NotePage extends Component {
             </div>
         );
     }
+
 }
 
-export default withRouter(NotePage);
+export default NotePage;

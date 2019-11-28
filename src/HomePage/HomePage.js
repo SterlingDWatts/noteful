@@ -9,7 +9,7 @@ class HomePage extends Component {
             <div className="home_page">
                 <FolderNav folders={this.props.folders} selectedFolder={null}/>
                 <div className="home_page__notes">
-                    <NoteList notes={this.props.notes} />
+                    <NoteList />
                     <button>Add Note</button>
                 </div>
             </div>

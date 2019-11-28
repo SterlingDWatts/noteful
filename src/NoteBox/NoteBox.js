@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import AppContext from '../AppContext';
 import './NoteBox.css';
 
 class NoteBox extends Component {
+
+    static contextType = AppContext;
+
     render() {
         const dateTime = new Date(this.props.note.modified);
         const options = { day: 'numeric', month: 'short', year: 'numeric' };
@@ -15,11 +19,17 @@ class NoteBox extends Component {
                 </Link>
                 <div>
                     <span>{ modifiedOn }</span>
-                    <button className="delete_note__button">Delete Note</button>
+                    <button 
+                        className="delete_note__button"
+                        onClick={() => this.context.deleteNote(this.props.note.id)}
+                    >
+                        Delete Note
+                    </button>
                 </div>                
             </li>
         );
     }
+
 }
 
 export default NoteBox;
