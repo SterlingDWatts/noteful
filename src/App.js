@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Route, Link } from 'react-router-dom';
-import STORE from './dummy-store';
 import HomePage from './HomePage/HomePage';
 import FolderPage from './FolderPage/FolderPage';
 import NotePage from './NotePage/NotePage';
+import AddFolder from './AddFolder/AddFolder';
 import AppContext from './AppContext';
 import './App.css';
 
@@ -14,7 +14,6 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            store: STORE,
             folders: [],
             notes: [],
             selectedFolder: null,
@@ -98,6 +97,11 @@ class App extends Component {
                         <Route
                             path="/note/:noteId"
                             component={NotePage}
+                        />
+                        <Route
+                            exact
+                            path="/add_folder"
+                            component={AddFolder}
                         />
                     </section>
                 </main>

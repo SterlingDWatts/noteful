@@ -3,7 +3,7 @@
     padding: 16px 0 0;
 }
 
-.folder_nav ul {
+.folder_nav_ul {
     list-style: none;
     padding: 0;
     margin: 0;
@@ -19,4 +19,5 @@
     width: 100%;
     margin: 0;
     padding: 8px;
+    border-radius: 5px;
 }

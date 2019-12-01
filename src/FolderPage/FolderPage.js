@@ -8,7 +8,7 @@ class FolderPage extends Component {
     render() {
         return (
             <div className="folder_page">
-                <FolderNav selectedFolder={this.props.match.params.folderId}/>
+                <FolderNav selectedFolder={this.props.match.params.folderId} addFolder={ true } />
                 <div className="folder_page__notes">
                     <NoteList selectedFolder={this.props.match.params.folderId}/>
                     <button>Add Note</button>

@@ -13,9 +13,9 @@ class NoteBox extends Component {
         const dateString = new Intl.DateTimeFormat('en-US', options).format(dateTime);
         const modifiedOn = 'Date modified on ' + dateString;
         return (
-            <li className="note_box">
-                <Link to={`/note/${this.props.note.id}`}>
-                    <h2 className="note_name">{this.props.note.name}</h2>
+            <li className='note_box'>
+                <Link to={`/note/${this.props.note.id}`} className='link_to_note'>
+                    <h2 className='note_name'>{this.props.note.name}</h2>
                 </Link>
                 <div>
                     <span>{ modifiedOn }</span>

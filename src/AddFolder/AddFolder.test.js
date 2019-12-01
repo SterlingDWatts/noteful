@@ -1,13 +1,13 @@
-import React from 'react'
+import React from 'react';
 import ReactDOM from 'react-dom';
-import NoteList from './NoteList';
+import AddFolder from './AddFolder';
 
-describe(`NoteList Component`, () => {
+describe(`AddFolder Component`, () => {
 
     it('renders without crashing', () => {
         const div = document.createElement('div');
-        ReactDOM.render(<NoteList notes={[]}/>, div);
+        ReactDOM.render(<AddFolder />, div);
         ReactDOM.unmountComponentAtNode(div);
     })
-    
+
 })
