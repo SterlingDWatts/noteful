@@ -63,11 +63,96 @@ class App extends Component {
 
     }
 
-    handleDeleteNote = (noteId) => {
-        const newNotes = this.state.notes.filter(note => note.id !== noteId)
-        this.setState({
-            notes: newNotes
+    refreshNotes = () => {
+        fetch('http://localhost:9090/notes', {
+            method: 'GET',
+            headers: {
+                'content-type': 'application/json',
+            },
         })
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error(res.status);
+                }
+                return res.json();
+            })
+            .then(resJson => {
+                this.setState({
+                    notes: resJson
+                })
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
+
+    handleDeleteNote = (noteId) => {
+        fetch(`http://localhost:9090/notes/${noteId}/`, {
+            method: 'DELETE'
+        })
+    }
+
+    refreshFolders = () => {
+        fetch('http://localhost:9090/folders', {
+            method: 'GET',
+            headers: {
+                'content-type': 'application/json',
+            },
+        })
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error(res.status);
+                }
+                return res.json();
+            })
+            .then(resJson => {
+                this.setState({
+                    folders: resJson
+                })
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
+
+    handleAddFolder = (folder) => {
+        fetch('http://localhost:9090/folders', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({
+                name: folder,
+            }),
+        })
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error(res.status)
+                }
+                return res.json();
+            })
+            .then(resJson => {
+                this.refreshFolders();
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
+
+    handleDeleteFolder = (folderId) => {
+        fetch(`http://localhost:9090/folders/${folderId}/`, {
+            method: 'DELETE'
+        })
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error(res.status)
+                }
+                return res.json();
+            })
+            .then(resJson => {
+                this.refreshFolders();
+            })
+            .catch(err => console.log(err))
     }
 
     render() {
@@ -75,7 +160,10 @@ class App extends Component {
             folders: this.state.folders,
             notes: this.state.notes,
             deleteNote: this.handleDeleteNote,
+            addFolder: this.handleAddFolder,
+            deleteFolder: this.handleDeleteFolder,
         }
+
         return (
             <AppContext.Provider value={contextValue}>
                 <main>

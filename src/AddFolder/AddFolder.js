@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import FolderNav from '../FolderNav/FolderNav';
+import AppContext from '../AppContext';
+import PropTypes from 'prop-types';
 import ValidationError from '../ValidationError/ValidationError';
 import './AddFolder.css';
 
@@ -15,6 +17,8 @@ class AddFolder extends Component {
         }
     }
 
+    static contextType = AppContext;
+
     updateName(name) {
         this.setState({name: {value: name, touched: true}});
     }
@@ -23,14 +27,20 @@ class AddFolder extends Component {
         const name = this.state.name.value.trim();
         if (name.length === 0) {
             return 'Name is required';
+        } else if (name.length < 4 || name.length > 40) {
+            return 'Name must be 4-40 characters.';
+        }
+
+        if (this.context.folders.map(folder => folder.name).includes(name)) {
+            return 'Name must be unique';
         }
     }
 
     handleSubmit(event) {
         event.preventDefault();
         const name = this.state.name.value;
-        console.log(name);
-        // code here.
+        this.context.addFolder(name);
+        this.props.history.goBack();
     }
 
     render() {
@@ -54,7 +64,10 @@ class AddFolder extends Component {
                         <button type='reset'>
                             Cancel
                         </button>
-                        <button type='submit'>
+                        <button 
+                            type='submit'
+                            disabled={ this.validateName() }
+                        >
                             Save
                         </button>
                     </div>
