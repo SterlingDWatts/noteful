@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import FolderNav from '../FolderNav/FolderNav';
 import AppContext from '../AppContext';
-import PropTypes from 'prop-types';
 import ValidationError from '../ValidationError/ValidationError';
 import './AddFolder.css';
 
@@ -40,13 +39,17 @@ class AddFolder extends Component {
         event.preventDefault();
         const name = this.state.name.value;
         this.context.addFolder(name);
+        this.props.history.push('/');
+    }
+
+    handleGoBack = () => {
         this.props.history.goBack();
     }
 
     render() {
         return (
             <div className='add_folder_page'>
-                <FolderNav selectedFolder={null}/>
+                <FolderNav />
                 <form className='add_folder_form' onSubmit={e => this.handleSubmit(e)}>
                     <h2>Add Folder</h2>
                     <label htmlFor='folder_name' className='folder_name_label'>Folder Name:{' '}</label>
@@ -61,7 +64,10 @@ class AddFolder extends Component {
                         <ValidationError message={this.validateName()} />
                     )}
                     <div className='add_folder_button_group'>
-                        <button type='reset'>
+                        <button 
+                            type='reset'
+                            onClick={this.handleGoBack}
+                        >
                             Cancel
                         </button>
                         <button 

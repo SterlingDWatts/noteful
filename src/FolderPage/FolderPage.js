@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import NoteList from '../NoteList/NoteList';
 import FolderNav from '../FolderNav/FolderNav';
 import './FolderPage.css';
@@ -6,7 +7,7 @@ import AppContext from '../AppContext';
 
 class FolderPage extends Component {
 
-    static contextType = AppContext
+    static contextType = AppContext;
 
     handleDeleteFolderClick = (event) => {
         event.preventDefault();
@@ -21,7 +22,7 @@ class FolderPage extends Component {
                 <FolderNav selectedFolder={this.props.match.params.folderId} addFolder={ true } />
                 <div className="folder_page__notes">
                     <NoteList selectedFolder={this.props.match.params.folderId}/>
-                    <button className="add_note_button">Add Note</button>
+                    <Link to={'/add_note'} className="add_note_button">Add Note</Link>
                     <button 
                         className="delete_folder_button" 
                         disabled={notes}

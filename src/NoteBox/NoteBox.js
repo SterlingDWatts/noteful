@@ -32,4 +32,39 @@ class NoteBox extends Component {
 
 }
 
+NoteBox.defaultProps = {
+    note: {
+        name: '',
+        id: '',
+        contents: '',
+        modified: ''
+    }
+}
+
+NoteBox.propTypes = {
+    note: (props, propName, componentName) => {
+        const prop = props[propName];
+
+        if (!prop) {
+            return new Error(`${propName} is required in ${componentName}. Validation Failed.`)
+        }
+
+        if (!prop.name || !prop.id || !prop.modified) {
+            return new Error(`${propName} must have a 'name', 'id', 'modified' attributes in ${componentName}.`)
+        }
+
+        if (typeof prop.name != 'string' || prop.name.length < 4 || prop.name.length > 10) {
+            return new Error(`'name' attribute of ${propName} must be of type string and be between 4 - 10 charecters in ${componentName}.`)
+        }
+
+        if (typeof prop.id != 'string') {
+            return new Error(`'id' attribute of ${propName} must be of type 'string' in ${componentName}`)
+        }
+
+        if (typeof prop.modified != 'string') {
+            return new Error(`'modified' attribute of ${propName} must be of type 'string' in ${componentName}`)
+        }
+    }
+}
+
 export default NoteBox;

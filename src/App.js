@@ -4,6 +4,7 @@ import HomePage from './HomePage/HomePage';
 import FolderPage from './FolderPage/FolderPage';
 import NotePage from './NotePage/NotePage';
 import AddFolder from './AddFolder/AddFolder';
+import AddNote from './AddNote/AddNote';
 import AppContext from './AppContext';
 import './App.css';
 
@@ -16,8 +17,6 @@ class App extends Component {
         this.state = {
             folders: [],
             notes: [],
-            selectedFolder: null,
-            selectedNote: null
         }
     }
 
@@ -86,10 +85,48 @@ class App extends Component {
             })
     }
 
+    handleAddNote = (noteName, noteFolderId, noteContent) => {
+        fetch(`http://localhost:9090/notes`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json',
+            },
+            body: JSON.stringify({
+                name: noteName,
+                folderId: noteFolderId,
+                content: noteContent,
+                modified: new Date()
+            })
+        })
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error(res.status)
+                }
+                return res.json();
+            })
+            .then(data => {
+                this.refreshNotes();
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
+
     handleDeleteNote = (noteId) => {
         fetch(`http://localhost:9090/notes/${noteId}/`, {
             method: 'DELETE'
         })
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error(res.status)
+                }
+                return res.json();
+            })
+            .then(data => {
+                this.refreshNotes();
+            })
+            .catch(err => console.log(err))
+        
     }
 
     refreshFolders = () => {
@@ -159,6 +196,7 @@ class App extends Component {
         const contextValue = {
             folders: this.state.folders,
             notes: this.state.notes,
+            addNote: this.handleAddNote,
             deleteNote: this.handleDeleteNote,
             addFolder: this.handleAddFolder,
             deleteFolder: this.handleDeleteFolder,
@@ -190,6 +228,11 @@ class App extends Component {
                             exact
                             path="/add_folder"
                             component={AddFolder}
+                        />
+                        <Route
+                            exact
+                            path="/add_note"
+                            component={AddNote}
                         />
                     </section>
                 </main>

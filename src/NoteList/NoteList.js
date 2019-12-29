@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import PropType from 'prop-types';
 import NoteBox from '../NoteBox/NoteBox';
 import AppContext from '../AppContext';
+import NoteError from '../NoteError/NoteError';
 import './NoteList.css';
 
 class NoteList extends Component {
@@ -13,12 +15,20 @@ class NoteList extends Component {
 
     render() {
         const notes = (this.context.notes.length > 0)
-            ? this.context.notes.map(note => <NoteBox note={note} key={note.id} />)
+            ? this.context.notes.map(note => (
+                <NoteError>
+                    <NoteBox note={note} key={note.id} />
+                </NoteError>
+            ))
             : <li> </li>;
         const filteredNotes = this.props.selectedFolder && (this.context.notes.length > 0)
             ? this.context.notes
                 .filter(note => note.folderId === this.props.selectedFolder)
-                .map(note => <NoteBox note={note} key={note.id} />)
+                .map(note => (
+                    <NoteError>
+                        <NoteBox note={note} key={note.id} />
+                    </NoteError>
+                ))
             : notes;
         return (
             <ul className="note_list">
@@ -27,6 +37,10 @@ class NoteList extends Component {
         );
     }
 
+}
+
+NoteList.propType = {
+    selectedFolder: PropType.string
 }
 
 export default NoteList;

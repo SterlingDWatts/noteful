@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import NoteBox from '../NoteBox/NoteBox';
 import AppContext from '../AppContext';
-import STORE from '../dummy-store';
+import NoteError from '../NoteError/NoteError';
 import './NotePage.css';
 
 class NotePage extends Component {
@@ -13,26 +13,28 @@ class NotePage extends Component {
     }
 
     render() {
-        const note = STORE.notes.find(note => note.id === this.props.match.params.noteId);
-        const folder = STORE.folders.find(folder => folder.id === note.folderId);
+        const note = this.context.notes.find(note => note.id === this.props.match.params.noteId);
+        const folder = this.context.folders.find(folder => folder.id === note.folderId);
         return (
-            <div className="note_page">
-                <div className="back_to_folders_nav">
-                    <div className="go_back__box">
-                        <button 
-                            className="go_back"
-                            onClick={this.handleGoBack}
-                        >
-                            Go Back
-                        </button>
+            <NoteError>
+                <div className="note_page">
+                    <div className="back_to_folders_nav">
+                        <div className="go_back__box">
+                            <button 
+                                className="go_back"
+                                onClick={this.handleGoBack}
+                            >
+                                Go Back
+                            </button>
+                        </div>
+                        <h2>{folder && folder.name}</h2>
                     </div>
-                    <h2>{folder.name}</h2>
+                    <div className="note_box__box">
+                        <ul>{note && (<NoteBox note={note}/>)}</ul>
+                        <p>{note && note.content}</p>
+                    </div>
                 </div>
-                <div className="note_box__box">
-                    <ul><NoteBox note={note}/></ul>
-                    <p>{note.content}</p>
-                </div>
-            </div>
+            </NoteError>
         );
     }
 

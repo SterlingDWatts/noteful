@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import Folder from '../Folder/Folder';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import Folder from '../Folder/Folder';
 import AppContext from '../AppContext';
+import FolderError from '../FolderError/FolderError';
 import './FolderNav.css';
 
 class FolderNav extends Component {
@@ -10,7 +12,11 @@ class FolderNav extends Component {
 
     render() {
         const folders = this.context.folders
-            ? this.context.folders.map(folder => <Folder folder={folder} key={folder.id} selectedFolder={this.props.selectedFolder}/>)
+            ? this.context.folders.map(folder => (
+                <FolderError>
+                    <Folder folder={folder} key={folder.id} selectedFolder={this.props.selectedFolder}/>
+                </FolderError>
+            ))
             : '';
         const addFolder = this.props.addFolder
             ? (
@@ -31,8 +37,14 @@ class FolderNav extends Component {
 
 }
 
+FolderNav.propTypes = {
+    addFolder: PropTypes.bool,
+    selectedFolder: PropTypes.string
+}
+
 FolderNav.defaultProps = {
-    folders: null
+    folders: null,
+    selectedFolder: null
 }
 
 export default FolderNav;
