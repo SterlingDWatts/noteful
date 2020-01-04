@@ -12,6 +12,11 @@ class NotePage extends Component {
         this.props.history.goBack()
     }
 
+    handleDeleteNote = () => {
+        this.props.history.goBack();
+        this.context.deleteNote(this.props.match.params.noteId);
+    }
+
     render() {
         const note = this.context.notes.find(note => note.id === this.props.match.params.noteId);
         const folder = this.context.folders.find(folder => folder.id === note.folderId);
@@ -30,8 +35,14 @@ class NotePage extends Component {
                         <h2>{folder && folder.name}</h2>
                     </div>
                     <div className="note_box__box">
-                        <ul>{note && (<NoteBox note={note}/>)}</ul>
+                        <ul>{note && (<NoteBox note={note} showDeleteButton={false} />)}</ul>
                         <p>{note && note.content}</p>
+                        <button 
+                            className='delete_note__button'
+                            onClick={this.handleDeleteNote}
+                        >
+                            Delete Note
+                        </button>
                     </div>
                 </div>
             </NoteError>

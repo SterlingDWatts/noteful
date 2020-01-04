@@ -19,12 +19,16 @@ class NoteBox extends Component {
                 </Link>
                 <div>
                     <span>{ modifiedOn }</span>
-                    <button 
-                        className="delete_note__button"
-                        onClick={() => this.context.deleteNote(this.props.note.id)}
-                    >
-                        Delete Note
-                    </button>
+                    {this.props.showDeleteButton && (
+                        <button 
+                            className="delete_note__button"
+                            onClick={() => {
+                                this.context.deleteNote(this.props.note.id)
+                            }}
+                        >
+                            Delete Note
+                        </button>
+                    )}
                 </div>                
             </li>
         );
@@ -38,7 +42,8 @@ NoteBox.defaultProps = {
         id: '',
         contents: '',
         modified: ''
-    }
+    },
+    showDeleteButton: true,
 }
 
 NoteBox.propTypes = {
