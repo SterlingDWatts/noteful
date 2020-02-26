@@ -18,7 +18,7 @@ class NotePage extends Component {
     }
 
     renderNote(note) {
-        const folder = this.context.folders.find(folder => folder.id === note.folderId);
+        const folder = this.context.folders.find(folder => folder.id === note.folder_id);
         return (
             <div className="note_page">
                 <div className="back_to_folders_nav">
@@ -67,7 +67,7 @@ class NotePage extends Component {
     }
 
     render() {
-        const note = this.context.notes.find(note => note.id === this.props.match.params.noteId)
+        const note = this.context.notes.find(note => note.id === Number(this.props.match.params.noteId))
         const notepage = note
             ? this.renderNote(note)
             : this.renderNoNote();

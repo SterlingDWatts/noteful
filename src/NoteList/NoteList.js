@@ -16,8 +16,8 @@ class NoteList extends Component {
     render() {
         const notes = (this.context.notes.length > 0)
             ? this.context.notes.map(note => (
-                <NoteError>
-                    <NoteBox note={note} key={note.id} />
+                <NoteError key={note.id} >
+                    <NoteBox note={note} />
                 </NoteError>
             ))
             : <li> </li>;
@@ -25,8 +25,8 @@ class NoteList extends Component {
             ? this.context.notes
                 .filter(note => note.folderId === this.props.selectedFolder)
                 .map(note => (
-                    <NoteError>
-                        <NoteBox note={note} key={note.id} />
+                    <NoteError key={note.id} >
+                        <NoteBox note={note} />
                     </NoteError>
                 ))
             : notes;

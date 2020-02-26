@@ -13,8 +13,8 @@ class FolderNav extends Component {
     render() {
         const folders = this.context.folders
             ? this.context.folders.map(folder => (
-                <FolderError>
-                    <Folder folder={folder} key={folder.id} selectedFolder={this.props.selectedFolder}/>
+                <FolderError  key={folder.id} >
+                    <Folder folder={folder} selectedFolder={this.props.selectedFolder}/>
                 </FolderError>
             ))
             : '';

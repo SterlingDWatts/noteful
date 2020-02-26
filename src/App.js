@@ -6,6 +6,7 @@ import NotePage from './NotePage/NotePage';
 import AddFolder from './AddFolder/AddFolder';
 import AddNote from './AddNote/AddNote';
 import AppContext from './AppContext';
+import config from "./config";
 import './App.css';
 
 class App extends Component {
@@ -22,10 +23,11 @@ class App extends Component {
 
     componentDidMount() {
 
-        fetch('http://localhost:9090/folders', {
+        fetch(`${config.API_ENDPOINT}/folders`, {
             method: 'GET',
             headers: {
-                'content-type': 'application/json'
+                'content-type': 'application/json',
+                'Authorization': `Bearer ${config.API_KEY}`
             }
         })
             .then(res => {
@@ -41,10 +43,11 @@ class App extends Component {
             })
             .catch(err => console.log(err))
 
-        fetch('http://localhost:9090/notes', {
+        fetch(`${config.API_ENDPOINT}/notes`, {
             method: 'GET',
             headers: {
-                'content-type': 'application/json'
+                'content-type': 'application/json',
+                'Authorization': `Bearer ${config.API_KEY}`
             }
         })
             .then(res => {
@@ -63,10 +66,11 @@ class App extends Component {
     }
 
     refreshNotes = () => {
-        fetch('http://localhost:9090/notes', {
+        fetch(`${config.API_ENDPOINT}/notes`, {
             method: 'GET',
             headers: {
                 'content-type': 'application/json',
+                'Authorization': `Bearer ${config.API_KEY}`
             },
         })
             .then(res => {
@@ -86,10 +90,11 @@ class App extends Component {
     }
 
     handleAddNote = (noteName, noteFolderId, noteContent) => {
-        fetch(`http://localhost:9090/notes`, {
+        fetch(`${config.API_ENDPOINT}/notes`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json',
+                'Authorization': `Bearer ${config.API_KEY}`
             },
             body: JSON.stringify({
                 name: noteName,
@@ -113,8 +118,11 @@ class App extends Component {
     }
 
     handleDeleteNote = (noteId) => {
-        fetch(`http://localhost:9090/notes/${noteId}/`, {
-            method: 'DELETE'
+        fetch(`http://localhost:8000/notes/${noteId}/`, {
+            method: 'DELETE',
+            headers: {
+                "Authorization": `Bearer ${config.API_KEY}`
+            }
         })
             .then(res => {
                 if (!res.ok) {
@@ -130,10 +138,11 @@ class App extends Component {
     }
 
     refreshFolders = () => {
-        fetch('http://localhost:9090/folders', {
+        fetch('http://localhost:8000/folders', {
             method: 'GET',
             headers: {
                 'content-type': 'application/json',
+                "Authorization": `Bearer ${config.API_KEY}`
             },
         })
             .then(res => {
@@ -153,10 +162,11 @@ class App extends Component {
     }
 
     handleAddFolder = (folder) => {
-        fetch('http://localhost:9090/folders', {
+        fetch('http://localhost:8000/folders', {
             method: 'POST',
             headers: {
-                'content-type': 'application/json'
+                'content-type': 'application/json',
+                "Authorization": `Bearer ${config.API_KEY}`
             },
             body: JSON.stringify({
                 name: folder,
@@ -177,8 +187,11 @@ class App extends Component {
     }
 
     handleDeleteFolder = (folderId) => {
-        fetch(`http://localhost:9090/folders/${folderId}/`, {
-            method: 'DELETE'
+        fetch(`http://localhost:8000/folders/${folderId}/`, {
+            method: 'DELETE',
+            headers: {
+                "Authorization": `Bearer ${config.API_KEY}`
+            }
         })
             .then(res => {
                 if (!res.ok) {
