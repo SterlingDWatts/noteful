@@ -16,203 +16,115 @@ class App extends Component {
     super(props);
     this.state = {
       folders: [],
-      notes: []
+      notes: [],
+      error: null
     };
   }
 
   setFolders = folders => {
     this.setState({
-      folders
+      folders,
+      error: null
     });
   };
 
   setNotes = notes => {
     this.setState({
-      notes
+      notes,
+      error: null
+    });
+  };
+
+  addFolder = folder => {
+    this.setState({
+      folders: [...this.state.folders, folder]
+    });
+  };
+
+  addNote = note => {
+    this.setState({
+      notes: [...this.state.notes, note]
+    });
+  };
+
+  deleteFolder = folderId => {
+    const newFolders = this.state.folders.filter(
+      folder => folder.id !== folderId
+    );
+    this.setState({
+      folders: newFolders
+    });
+  };
+
+  deleteNote = noteId => {
+    const newNotes = this.state.notes.filter(note => note.id !== noteId);
+    this.setState({
+      notes: newNotes
+    });
+  };
+
+  updateFolder = updateFolder => {
+    const newFolders = this.state.folders.map(folder =>
+      folder.id !== updateFolder.id ? folder : updateFolder
+    );
+    this.setState({
+      folders: newFolders
+    });
+  };
+
+  updateNote = updateNote => {
+    const newNotes = this.state.notes.map(note =>
+      note.id !== updateNote ? note : updateNote
+    );
+    this.setState({
+      notes: newNotes
     });
   };
 
   componentDidMount() {
-    fetch(`${config.API_ENDPOINT}/api/folders`, {
-      method: "GET",
-      headers: {
-        "content-type": "application/json",
-        Authorization: `Bearer ${config.API_KEY}`
-      }
-    })
-      .then(res => {
-        if (!res.ok) {
-          throw new Error(res.status);
+    Promise.all([
+      fetch(`${config.API_ENDPOINT}/api/folders`, {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+          Authorization: `Bearer ${config.API_KEY}`
         }
-        return res.json();
+      }),
+      fetch(`${config.API_ENDPOINT}/api/notes`, {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+          Authorization: `Bearer ${config.API_KEY}`
+        }
       })
-      .then(this.setFolders)
-      .catch(err => console.log(err));
+    ])
+      .then(([foldersRes, notesRes]) => {
+        if (!foldersRes.ok) {
+          throw new Error(foldersRes.status);
+        }
+        if (!notesRes.ok) {
+          throw new Error(notesRes.status);
+        }
 
-    fetch(`${config.API_ENDPOINT}/api/notes`, {
-      method: "GET",
-      headers: {
-        "content-type": "application/json",
-        Authorization: `Bearer ${config.API_KEY}`
-      }
-    })
-      .then(res => {
-        if (!res.ok) {
-          throw new Error(res.status);
-        }
-        return res.json();
+        return Promise.all([foldersRes.json(), notesRes.json()]);
       })
-      .then(this.setNotes)
-      .catch(err => console.log(err));
+      .then(([folders, notes]) => {
+        this.setFolders(folders);
+        this.setNotes(notes);
+      })
+      .catch(error => {
+        this.setState({ error });
+      });
   }
-
-  refreshNotes = () => {
-    fetch(`${config.API_ENDPOINT}/api/notes`, {
-      method: "GET",
-      headers: {
-        "content-type": "application/json",
-        Authorization: `Bearer ${config.API_KEY}`
-      }
-    })
-      .then(res => {
-        if (!res.ok) {
-          throw new Error(res.status);
-        }
-        return res.json();
-      })
-      .then(resJson => {
-        this.setState({
-          notes: resJson
-        });
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
-
-  handleAddNote = (noteName, noteFolderId, noteContent) => {
-    fetch(`${config.API_ENDPOINT}/api/notes`, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        Authorization: `Bearer ${config.API_KEY}`
-      },
-      body: JSON.stringify({
-        name: noteName,
-        folder_id: noteFolderId,
-        content: noteContent,
-        modified: new Date()
-      })
-    })
-      .then(res => {
-        if (!res.ok) {
-          throw new Error(res.status);
-        }
-        return res.json();
-      })
-      .then(data => {
-        this.refreshNotes();
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
-
-  handleDeleteNote = noteId => {
-    fetch(`${config.API_ENDPOINT}/api/notes/${noteId}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${config.API_KEY}`
-      }
-    })
-      .then(res => {
-        if (!res.ok) {
-          throw new Error(res.status);
-        }
-        return res.json();
-      })
-      .then(data => {
-        this.refreshNotes();
-      })
-      .catch(err => console.log(err));
-  };
-
-  refreshFolders = () => {
-    fetch(`${config.API_ENDPOINT}/api/folders`, {
-      method: "GET",
-      headers: {
-        "content-type": "application/json",
-        Authorization: `Bearer ${config.API_KEY}`
-      }
-    })
-      .then(res => {
-        if (!res.ok) {
-          throw new Error(res.status);
-        }
-        return res.json();
-      })
-      .then(resJson => {
-        this.setState({
-          folders: resJson
-        });
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
-
-  handleAddFolder = folder => {
-    fetch(`${config.API_ENDPOINT}/api/folders`, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        Authorization: `Bearer ${config.API_KEY}`
-      },
-      body: JSON.stringify({
-        name: folder
-      })
-    })
-      .then(res => {
-        if (!res.ok) {
-          throw new Error(res.status);
-        }
-        return res.json();
-      })
-      .then(resJson => {
-        this.refreshFolders();
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
-
-  handleDeleteFolder = folderId => {
-    fetch(`${config.API_ENDPOINT}/api/folders/${folderId}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${config.API_KEY}`
-      }
-    })
-      .then(res => {
-        if (!res.ok) {
-          throw new Error(res.status);
-        }
-        return res.json();
-      })
-      .then(resJson => {
-        this.refreshFolders();
-      })
-      .catch(err => console.log(err));
-  };
 
   render() {
     const contextValue = {
       folders: this.state.folders,
       notes: this.state.notes,
-      addNote: this.handleAddNote,
-      deleteNote: this.handleDeleteNote,
-      addFolder: this.handleAddFolder,
-      deleteFolder: this.handleDeleteFolder
+      addFolder: this.addFolder,
+      addNote: this.addNote,
+      deleteFolder: this.deleteFolder,
+      deleteNote: this.handleDeleteNote
     };
 
     return (

@@ -1,12 +1,12 @@
-import React from 'react';
+import React from "react";
 
 const AppContext = React.createContext({
-    folders: [],
-    notes: [],
-    addNote: () => {},
-    deleteNote: () => {},
-    addFolder: () => {},
-    deleteFolder: () => {},
-})
+  folders: [],
+  notes: [],
+  addFolder: () => {},
+  addNote: () => {},
+  deleteFolder: () => {},
+  deleteNote: () => {}
+});
 
-export default AppContext
+export default AppContext;
